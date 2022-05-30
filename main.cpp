@@ -1,55 +1,57 @@
 #include <iostream>
 
-#include <curses.h>
+//#include <curses.h>
 #include "Pieces.h"
-
-void create_board(std::vector<std::vector<int>>& board, int height, int width)
-{
-    for(int row = 0; row < height; ++row) {
-        for (int colm = 0; colm < width; ++colm)
-        {
-            if(row == 0 || row == height - 1)
-            {
-                board.at(row).push_back(1);
-            }
-        }
-        board.emplace_back(std::vector<int>());
-
-    }
-}
+#include <chrono>
 
 int main()
 {
-//    char users_name[ 100 ];
-//
-//    initscr();
-//    (void)echo();
-//
-//    addstr( "What is your name> " );
-//    refresh();
-//    getnstr( users_name, sizeof( users_name ) - 1 );
-//
-//    /* Here is where we clear the screen.                  */
-//    /* (Remember, when using Curses, no change will appear */
-//    /* on the screen until <b>refresh</b>() is called.     */
-//    clear();
-//
-//    printw( "Greetings and salutations %s!\n", users_name );
-//    refresh();
-//
-//    printw( "\n\n\nPress ENTER to quit." );
-//    refresh();
-//    getnstr( users_name, sizeof( users_name ) - 1 );
-//
-//    endwin();
-    //FigureGenerator generator;
-    //const IPieces* obj = generator.createPiece();
-    int height{10};
-    int width{10};
-    std::vector<std::vector<int>> board;
+    std::array<int, 5> board = {0, 0, 0, 0, 1};
+    std::array<int, 1> sprite = {1};
+    size_t posY  = 0;   //счетчик положения обьекта
+    bool endGame = false;
+    size_t deadLine{0};
+    bool createNewSprite{false};
+    while( !endGame )
+    {
 
+        for( size_t row = 0; row < board.size(); row++)
+        {
+            if( board[row] == 1 ) { std::cout << "#"; };    // draw element from board
+            if ( row <= posY )                  // start draw sprite
+            {
+                int index = posY; // 2
+                if( index < sprite.size() )      // check out of array
+                {
+                    if( sprite[index] == 1 ) (std::cout << "#") ;    // draw if 2
+                    // save sprite on board if prev element on board == 1 and cur element in sprite == 2
+                    if ( row != 0 && board[row-1] == sprite[index] )
+                    {
+                        board[row] = sprite[index];     // save Sprite in board
+                        createNewSprite = true;
+                        ++deadLine;
+                    }
+                }
+            }
+            std::cout << std::endl;
+        }
+        system("cls");
 
-
-
+        if (createNewSprite)
+        {
+            posY = 0;
+            createNewSprite = false;
+        }
+        else
+        {
+            sleep(1);
+            ++posY;
+        }
+        if (deadLine == board.size() - 1)
+        {
+            endGame = true;
+        }
+    }
+    system("cls");
     return 0;
 }
