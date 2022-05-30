@@ -7,10 +7,6 @@ set(SOURCES main.cpp
             src/Board.cpp )
                     
 
-#find_package(Curses REQUIRED)
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 target_include_directories(${PROJECT_NAME} PRIVATE ./inc)
-
-#target_include_directories(${PROJECT_NAME} PRIVATE ${CURSES_INCLUDE_DIRS})
-#target_link_libraries(${PROJECT_NAME} PRIVATE ${CURSES_LIBRARIES})

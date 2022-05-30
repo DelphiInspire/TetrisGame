@@ -1,9 +1,5 @@
 #include "Board.h"
 #include "Pieces.h"
-#include <iostream>
-
-//#include <curses.h>
-#include "Pieces.h"
 #include <chrono>
 
 int main()
